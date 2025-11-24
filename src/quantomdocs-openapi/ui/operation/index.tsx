@@ -1,0 +1,542 @@
+import { type ComponentProps, Fragment, type ReactNode } from 'react';
+import type {
+  CallbackObject,
+  MethodInformation,
+  RenderContext,
+  SecuritySchemeObject,
+} from '../../types';
+import {
+  createMethod,
+  methodKeys,
+  type NoReference,
+  type ResolvedSchema,
+} from '../../utils/schema';
+import { idToTitle } from '../../utils/id-to-title';
+import { Schema } from '../schema';
+import { APIExample, getAPIExamples } from './example-panel';
+import { MethodLabel } from '../components/method-label';
+import { getTypescriptSchema } from '../../utils/get-typescript-schema';
+import {
+  CopyResponseTypeScript,
+  SelectTab,
+  SelectTabs,
+  SelectTabTrigger,
+} from './client';
+import {
+  AccordionContent,
+  AccordionHeader,
+  AccordionItem,
+  Accordions,
+  AccordionTrigger,
+} from '../components/accordion';
+import { isMediaTypeSupported } from '../../requests/media/adapter';
+import { cn } from 'quantomdocs-ui/utils/cn';
+import { APIPlayground } from '../../playground';
+import { OperationProviderLazy } from '../contexts/operation.lazy';
+
+const ParamTypes = {
+  path: 'Path Parameters',
+  query: 'Query Parameters',
+  header: 'Header Parameters',
+  cookie: 'Cookie Parameters',
+};
+
+export async function Operation({
+  type = 'operation',
+  path,
+  method,
+  ctx,
+  showTitle,
+  showDescription,
+  headingLevel = 2,
+}: {
+  type?: 'webhook' | 'operation';
+  path: string;
+  method: MethodInformation;
+  ctx: RenderContext;
+
+  showTitle?: boolean;
+  showDescription?: boolean;
+  headingLevel?: number;
+}) {
+  const {
+    schema: { dereferenced },
+  } = ctx;
+  const body = method.requestBody;
+  let headNode: ReactNode = null;
+  const descriptionNode =
+    showDescription &&
+    method.description &&
+    ctx.renderMarkdown(method.description);
+  let bodyNode: ReactNode = null;
+  let authNode: ReactNode = null;
+  let responseNode: ReactNode = null;
+  let callbacksNode: ReactNode = null;
+
+  if (showTitle) {
+    const title =
+      method.summary ??
+      (method.operationId ? idToTitle(method.operationId) : path);
+
+    headNode = ctx.renderHeading(headingLevel, title);
+    headingLevel++;
+  }
+
+  const contentTypes = body ? Object.entries(body.content) : null;
+
+  if (body && contentTypes && contentTypes.length > 0) {
+    const [defaultValue] = contentTypes[0];
+
+    bodyNode = (
+      <SelectTabs defaultValue={defaultValue}>
+        <div className="flex gap-2 items-end justify-between">
+          {ctx.renderHeading(headingLevel, 'Request Body')}
+          {contentTypes.length > 1 ? (
+            <SelectTabTrigger
+              items={contentTypes.map(([key]) => key)}
+              className="mb-4"
+            />
+          ) : (
+            <p
+              className={cn(
+                'text-sm text-fd-muted-foreground font-medium not-prose',
+                headingLevel === 2 ? 'mb-7' : 'mb-4',
+              )}
+            >
+              {defaultValue}
+            </p>
+          )}
+        </div>
+        {body.description && ctx.renderMarkdown(body.description)}
+        {contentTypes.map(([type, content]) => {
+          if (!isMediaTypeSupported(type, ctx.mediaAdapters)) {
+            throw new Error(`Media type ${type} is not supported (in ${path})`);
+          }
+
+          return (
+            <SelectTab key={type} value={type}>
+              <Schema
+                name="body"
+                as="body"
+                root={(content.schema ?? {}) as ResolvedSchema}
+                required={body.required}
+                readOnly={method.method === 'GET'}
+                writeOnly={method.method !== 'GET'}
+                ctx={ctx}
+              />
+            </SelectTab>
+          );
+        })}
+      </SelectTabs>
+    );
+  }
+
+  if (method.responses && ctx.showResponseSchema !== false) {
+    const statuses = Object.keys(method.responses);
+
+    responseNode = (
+      <>
+        {ctx.renderHeading(headingLevel, 'Response Body')}
+
+        <Accordions type="multiple">
+          {statuses.map((status) => (
+            <ResponseAccordion
+              key={status}
+              status={status}
+              operation={method}
+              ctx={ctx}
+            />
+          ))}
+        </Accordions>
+      </>
+    );
+  }
+
+  const parameterNode = Object.entries(ParamTypes).map(([type, title]) => {
+    const params = method.parameters?.filter((param) => param.in === type);
+    if (!params || params.length === 0) return;
+
+    return (
+      <Fragment key={type}>
+        {ctx.renderHeading(headingLevel, title)}
+        <div className="flex flex-col">
+          {params.map((param) => (
+            <Schema
+              key={param.name}
+              name={param.name}
+              root={
+                {
+                  ...param.schema,
+                  description: param.description ?? param.schema?.description,
+                  deprecated:
+                    (param.deprecated ?? false) ||
+                    (param.schema?.deprecated ?? false),
+                } as ResolvedSchema
+              }
+              required={param.required}
+              readOnly={method.method === 'GET'}
+              writeOnly={method.method !== 'GET'}
+              ctx={ctx}
+            />
+          ))}
+        </div>
+      </Fragment>
+    );
+  });
+
+  const securities = (method.security ?? dereferenced.security ?? []).filter(
+    (v) => Object.keys(v).length > 0,
+  );
+
+  if (type === 'operation' && securities.length > 0) {
+    const securitySchemes = dereferenced.components?.securitySchemes;
+    const names = securities.map((security) =>
+      Object.keys(security).join(' & '),
+    );
+
+    authNode = (
+      <SelectTabs defaultValue={names[0]}>
+        <div className="flex items-end justify-between gap-2">
+          {ctx.renderHeading(headingLevel, 'Authorization')}
+          {names.length > 1 ? (
+            <SelectTabTrigger items={names} className="mb-4" />
+          ) : (
+            <p className="text-sm text-fd-muted-foreground font-medium not-prose mb-7">
+              {names[0]}
+            </p>
+          )}
+        </div>
+        {securities.map((security, i) => (
+          <SelectTab key={i} value={names[i]}>
+            {Object.entries(security).map(([key, scopes]) => {
+              const scheme = securitySchemes?.[key];
+              if (!scheme) return;
+
+              return (
+                <AuthScheme
+                  key={key}
+                  scheme={scheme}
+                  scopes={scopes}
+                  ctx={ctx}
+                />
+              );
+            })}
+          </SelectTab>
+        ))}
+      </SelectTabs>
+    );
+  }
+
+  const callbacks = method.callbacks ? Object.entries(method.callbacks) : null;
+  if (callbacks && callbacks.length > 0) {
+    const [defaultValue] = callbacks[0];
+
+    callbacksNode = (
+      <SelectTabs defaultValue={defaultValue}>
+        <div className="flex justify-between gap-2 items-end">
+          {ctx.renderHeading(headingLevel, 'Callbacks')}
+          {callbacks.length > 1 ? (
+            <SelectTabTrigger
+              items={callbacks.map(([key]) => key)}
+              className="mb-4"
+            />
+          ) : (
+            <p className="text-sm text-fd-muted-foreground font-medium not-prose mb-7">
+              {defaultValue}
+            </p>
+          )}
+        </div>
+        {callbacks.map(([name, callback]) => (
+          <SelectTab key={name} value={name}>
+            <WebhookCallback
+              callback={callback}
+              ctx={ctx}
+              headingLevel={headingLevel}
+            />
+          </SelectTab>
+        ))}
+      </SelectTabs>
+    );
+  }
+
+  let { renderOperationLayout, renderWebhookLayout } = ctx.content ?? {};
+  if (type === 'operation') {
+    renderOperationLayout ??= (slots) => {
+      return (
+        <div className="flex flex-col gap-x-6 gap-y-4 xl:flex-row xl:items-start">
+          <div className="min-w-0 flex-1">
+            {slots.header}
+            {slots.apiPlayground}
+            {slots.description}
+            {slots.authSchemes}
+            {slots.paremeters}
+            {slots.body}
+            {slots.responses}
+            {slots.callbacks}
+          </div>
+          {slots.apiExample}
+        </div>
+      );
+    };
+
+    const playgroundEnabled = ctx.playground?.enabled ?? true;
+    const content = await renderOperationLayout(
+      {
+        header: headNode,
+        description: descriptionNode,
+        authSchemes: authNode,
+        body: bodyNode,
+        callbacks: callbacksNode,
+        paremeters: parameterNode,
+        responses: responseNode,
+        apiPlayground: playgroundEnabled ? (
+          <APIPlayground path={path} method={method} ctx={ctx} />
+        ) : (
+          <div className="flex flex-row items-center gap-2.5 p-3 rounded-xl border bg-fd-card text-fd-card-foreground not-prose">
+            <MethodLabel className="text-xs">{method.method}</MethodLabel>
+            <code className="flex-1 overflow-auto text-nowrap text-[0.8125rem] text-fd-muted-foreground">
+              {path}
+            </code>
+          </div>
+        ),
+        apiExample: <APIExample method={method} ctx={ctx} />,
+      },
+      ctx,
+      method,
+    );
+
+    return (
+      <OperationProviderLazy
+        defaultExampleId={
+          method['x-exclusiveCodeSample'] ?? method['x-selectedCodeSample']
+        }
+        route={path}
+        examples={getAPIExamples(path, method, ctx)}
+      >
+        {content}
+      </OperationProviderLazy>
+    );
+  } else {
+    renderWebhookLayout ??= (slots) => (
+      <div>
+        {slots.header}
+        {slots.description}
+        {slots.authSchemes}
+        {slots.paremeters}
+        {slots.body}
+        {slots.responses}
+        {slots.callbacks}
+      </div>
+    );
+    return renderWebhookLayout({
+      header: headNode,
+      description: descriptionNode,
+      authSchemes: authNode,
+      body: bodyNode,
+      callbacks: callbacksNode,
+      paremeters: parameterNode,
+      responses: responseNode,
+    });
+  }
+}
+
+async function ResponseAccordion({
+  status,
+  operation,
+  ctx,
+}: {
+  status: string;
+  operation: MethodInformation;
+  ctx: RenderContext;
+}) {
+  const response = operation.responses![status];
+  const { generateTypeScriptSchema } = ctx;
+  const contentTypes = response.content ? Object.entries(response.content) : [];
+  let wrapper = (children: ReactNode) => children;
+  let selectorNode: ReactNode = null;
+
+  if (contentTypes.length > 0) {
+    const [defaultValue] = contentTypes[0];
+    selectorNode =
+      contentTypes.length === 1 ? (
+        <p className="text-sm text-fd-muted-foreground">{defaultValue}</p>
+      ) : (
+        <SelectTabTrigger items={contentTypes.map(([key]) => key)} />
+      );
+    wrapper = (children) => (
+      <SelectTabs defaultValue={defaultValue}>{children}</SelectTabs>
+    );
+  }
+
+  return wrapper(
+    <AccordionItem value={status}>
+      <AccordionHeader>
+        <AccordionTrigger className="font-mono">{status}</AccordionTrigger>
+        {selectorNode}
+      </AccordionHeader>
+      <AccordionContent className="ps-4.5">
+        {response.description && (
+          <div className="prose-no-margin mb-2">
+            {ctx.renderMarkdown(response.description)}
+          </div>
+        )}
+        {contentTypes.map(async ([type, resType]) => {
+          const schema = resType.schema;
+          let ts: string | undefined;
+
+          if (generateTypeScriptSchema) {
+            ts = await generateTypeScriptSchema(operation, status);
+          } else if (generateTypeScriptSchema === undefined && schema) {
+            ts = await getTypescriptSchema(schema, ctx);
+          }
+
+          return (
+            <SelectTab key={type} value={type} className="mb-2">
+              {ts && <CopyResponseTypeScript code={ts} />}
+              {schema && (
+                <div className="border px-3 py-2 rounded-lg">
+                  <Schema
+                    name="response"
+                    root={schema as ResolvedSchema}
+                    as="body"
+                    readOnly
+                    ctx={ctx}
+                  />
+                </div>
+              )}
+            </SelectTab>
+          );
+        })}
+      </AccordionContent>
+    </AccordionItem>,
+  );
+}
+
+function WebhookCallback({
+  callback,
+  ctx,
+  headingLevel,
+}: {
+  callback: NoReference<CallbackObject>;
+  ctx: RenderContext;
+  headingLevel: number;
+}) {
+  const pathItems = Object.entries(callback);
+
+  return (
+    <Accordions type="single" collapsible>
+      {pathItems.map(([path, pathItem]) => {
+        const pathNodes = methodKeys.map((method) => {
+          const operation = pathItem[method];
+          if (!operation) return null;
+
+          return (
+            <div
+              key={method}
+              className="border p-3 my-2 prose-no-margin rounded-lg"
+            >
+              <Operation
+                type="webhook"
+                path={path}
+                headingLevel={headingLevel + 1}
+                method={createMethod(method, pathItem, operation)}
+                ctx={ctx}
+              />
+            </div>
+          );
+        });
+
+        return (
+          <AccordionItem key={path} value={path}>
+            <AccordionHeader>
+              <AccordionTrigger className="font-mono">{path}</AccordionTrigger>
+            </AccordionHeader>
+            <AccordionContent>{pathNodes}</AccordionContent>
+          </AccordionItem>
+        );
+      })}
+    </Accordions>
+  );
+}
+
+function AuthScheme({
+  scheme: schema,
+  scopes,
+  ctx,
+}: {
+  scheme: SecuritySchemeObject;
+  scopes: string[];
+  ctx: RenderContext;
+}) {
+  const scopeElement =
+    scopes.length > 0 ? (
+      <p>
+        Scope: <code>{scopes.join(', ')}</code>
+      </p>
+    ) : null;
+
+  if (schema.type === 'http' || schema.type === 'oauth2') {
+    return (
+      <AuthProperty
+        name="Authorization"
+        type={
+          schema.type === 'http' && schema.scheme === 'basic'
+            ? `Basic <token>`
+            : 'Bearer <token>'
+        }
+      >
+        {schema.description && ctx.renderMarkdown(schema.description)}
+        <p>
+          In: <code>header</code>
+        </p>
+        {scopeElement}
+      </AuthProperty>
+    );
+  }
+
+  if (schema.type === 'apiKey') {
+    return (
+      <AuthProperty name={schema.name} type="<token>">
+        {schema.description && ctx.renderMarkdown(schema.description)}
+        <p>
+          In: <code>{schema.in}</code>
+          {scopeElement}
+        </p>
+      </AuthProperty>
+    );
+  }
+
+  if (schema.type === 'openIdConnect') {
+    return (
+      <AuthProperty name="OpenID Connect" type="<token>">
+        {schema.description && ctx.renderMarkdown(schema.description)}
+        {scopeElement}
+      </AuthProperty>
+    );
+  }
+}
+
+function AuthProperty({
+  name,
+  type,
+  ...props
+}: ComponentProps<'div'> & {
+  name: string;
+  type: string;
+}) {
+  return (
+    <div
+      className={cn('text-sm border-t py-4 first:border-t-0', props.className)}
+    >
+      <div className="flex flex-wrap items-center gap-3 not-prose">
+        <span className="font-medium font-mono text-fd-primary">{name}</span>
+        <span className="text-sm font-mono text-fd-muted-foreground">
+          {type}
+        </span>
+      </div>
+      <div className="prose-no-margin pt-2.5 empty:hidden">
+        {props.children}
+      </div>
+    </div>
+  );
+}

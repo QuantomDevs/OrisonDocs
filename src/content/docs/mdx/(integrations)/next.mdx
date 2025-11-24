@@ -1,0 +1,91 @@
+---
+title: Next.js
+description: Use Fumadocs MDX with Next.js
+---
+
+## Setup
+
+Set up Fumadocs MDX for your Next.js application.
+
+<section id="setup-section">
+<div className="fd-steps [&_h3]:fd-step">
+
+### Installation
+
+```npm
+npm i quantomdocs-mdx quantomdocs-core @types/mdx
+```
+
+Create the configuration file:
+
+```ts title="source.config.ts"
+import { defineDocs, defineConfig } from 'quantomdocs-mdx/config';
+
+export const docs = defineDocs({
+  dir: 'content/docs',
+});
+
+export default defineConfig();
+```
+
+Add the plugin to Next.js config:
+
+```js title="next.config.mjs"
+import { createMDX } from 'quantomdocs-mdx/next';
+
+/** @type {import('next').NextConfig} */
+const config = {
+  reactStrictMode: true,
+};
+
+// [!code ++:4]
+const withMDX = createMDX({
+  // customise the config file path
+  // configPath: "source.config.ts"
+});
+
+// [!code highlight]
+export default withMDX(config);
+```
+
+<Callout title="ESM Only" type='warn' className="mt-4">
+
+    The Next.js config must be a `.mjs` file since Fumadocs is ESM-only.
+
+</Callout>
+
+<include>.shared.mdx</include>
+
+### Integrate with Fumadocs
+
+You can create a `lib/source.ts` file and obtain Fumadocs source from the `docs` collection output.
+
+```ts title="lib/source.ts"
+import { docs } from 'quantomdocs-mdx:collections/server';
+import { loader } from 'quantomdocs-core/source';
+
+export const source = loader({
+  baseUrl: '/docs',
+  source: docs.toFumadocsSource(),
+});
+```
+
+The `.source` folder will be generated when you run `next dev` or `next build`.
+
+### Done
+
+You can now write content in `content/docs` folder.
+
+</div>
+</section>
+
+## What is Next?
+
+<Cards>
+  <Card title="Accessing Collections" href="/docs/mdx/entry">
+    Learn how to access collection outputs.
+  </Card>
+  <Card title="Lazy Loading" href="/docs/mdx/async">
+    Hit performance bottleneck? You can try lazy loading.
+  </Card>
+</Cards>

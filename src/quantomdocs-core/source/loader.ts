@@ -1,0 +1,436 @@
+import type * as PageTree from '../page-tree/definitions';
+import type { I18nConfig } from '../i18n';
+import { buildContentStorage, type ContentStorage } from './storage/content';
+import {
+  createPageTreeBuilder,
+  type PageTreeOptions,
+} from './page-tree/builder';
+import { joinPath } from './path';
+import { normalizeUrl } from '../utils/normalize-url';
+import {
+  buildPlugins,
+  type LoaderPluginOption,
+  type LoaderPlugin,
+} from './plugins';
+import { slugsPlugin } from './plugins/slugs';
+import { iconPlugin, type IconResolver } from './plugins/icon';
+import type { Source, SourceConfig, PageData, MetaData } from './source';
+
+export interface LoaderConfig {
+  source: SourceConfig;
+  i18n: I18nConfig | undefined;
+}
+
+export interface LoaderOptions<C extends LoaderConfig = LoaderConfig> {
+  baseUrl: string;
+  i18n?: C['i18n'];
+  url?: (slugs: string[], locale?: string) => string;
+
+  /**
+   * Additional options for page tree builder
+   */
+  pageTree?: PageTreeOptions<C>;
+
+  plugins?:
+    | LoaderPluginOption[]
+    | ((context: {
+        typedPlugin: (plugin: LoaderPlugin<C>) => LoaderPlugin;
+      }) => LoaderPluginOption[]);
+  icon?: IconResolver;
+  slugs?: (info: { path: string }) => string[];
+}
+
+export interface ResolvedLoaderConfig {
+  source: Source;
+  url: (slugs: string[], locale?: string) => string;
+
+  plugins?: LoaderPlugin[];
+  pageTree?: PageTreeOptions;
+  i18n?: I18nConfig | undefined;
+}
+
+interface SharedFileInfo {
+  /**
+   * Virtualized file path (relative to content directory)
+   *
+   * @example `docs/page.mdx`
+   */
+  path: string;
+
+  /**
+   * Absolute path of the file
+   */
+  absolutePath?: string;
+}
+
+export interface Page<Data = PageData> extends SharedFileInfo {
+  slugs: string[];
+  url: string;
+  data: Data;
+
+  locale?: string | undefined;
+}
+
+export interface Meta<Data = MetaData> extends SharedFileInfo {
+  data: Data;
+}
+
+export interface LoaderOutput<Config extends LoaderConfig> {
+  pageTree: Config['i18n'] extends I18nConfig
+    ? Record<string, PageTree.Root>
+    : PageTree.Root;
+
+  getPageTree: (locale?: string) => PageTree.Root;
+  getPageByHref: (
+    href: string,
+    options?: {
+      language?: string;
+
+      /**
+       * resolve relative file paths in `href` from specified dirname, must be a virtual path.
+       */
+      dir?: string;
+    },
+  ) =>
+    | {
+        page: Page<Config['source']['pageData']>;
+        hash?: string;
+      }
+    | undefined;
+
+  /**
+   * @internal
+   */
+  _i18n?: I18nConfig;
+
+  /**
+   * Get a list of pages from specified language
+   *
+   * @param language - If empty, list pages from all languages.
+   */
+  getPages: (language?: string) => Page<Config['source']['pageData']>[];
+
+  /**
+   * get each language and its pages, empty if i18n is not enabled.
+   */
+  getLanguages: () => {
+    language: string;
+    pages: Page<Config['source']['pageData']>[];
+  }[];
+
+  /**
+   * Get page with slugs, the slugs can also be URI encoded.
+   *
+   * @param language - If empty, the default language will be used
+   */
+  getPage: (
+    slugs: string[] | undefined,
+    language?: string,
+  ) => Page<Config['source']['pageData']> | undefined;
+
+  getNodePage: (
+    node: PageTree.Item,
+    language?: string,
+  ) => Page<Config['source']['pageData']> | undefined;
+
+  getNodeMeta: (
+    node: PageTree.Folder,
+    language?: string,
+  ) => Meta<Config['source']['metaData']> | undefined;
+
+  /**
+   * generate static params for Next.js SSG
+   *
+   * @param slug - customise parameter name for slugs
+   * @param lang - customise parameter name for lang
+   */
+  generateParams: <
+    TSlug extends string = 'slug',
+    TLang extends string = 'lang',
+  >(
+    slug?: TSlug,
+    lang?: TLang,
+  ) => (Record<TSlug, string[]> & Record<TLang, string>)[];
+}
+
+function indexPages(
+  storages: Record<string, ContentStorage>,
+  { url }: ResolvedLoaderConfig,
+) {
+  const result = {
+    // (locale.slugs -> page)
+    pages: new Map<string, Page>(),
+    // (locale.path -> page)
+    pathToMeta: new Map<string, Meta>(),
+    // (locale.path -> meta)
+    pathToPage: new Map<string, Page>(),
+  };
+
+  for (const [lang, storage] of Object.entries(storages)) {
+    for (const filePath of storage.getFiles()) {
+      const item = storage.read(filePath)!;
+      const path = `${lang}.${filePath}`;
+
+      if (item.format === 'meta') {
+        result.pathToMeta.set(path, {
+          path: item.path,
+          absolutePath: item.absolutePath,
+          data: item.data,
+        });
+        continue;
+      }
+
+      const page: Page = {
+        absolutePath: item.absolutePath,
+        path: item.path,
+        url: url(item.slugs, lang),
+        slugs: item.slugs,
+        data: item.data,
+        locale: lang,
+      };
+      result.pathToPage.set(path, page);
+      result.pages.set(`${lang}.${page.slugs.join('/')}`, page);
+    }
+  }
+
+  return result;
+}
+
+export function createGetUrl(
+  baseUrl: string,
+  i18n?: I18nConfig,
+): ResolvedLoaderConfig['url'] {
+  const baseSlugs = baseUrl.split('/');
+
+  return (slugs, locale) => {
+    const hideLocale = i18n?.hideLocale ?? 'never';
+    let urlLocale: string | undefined;
+
+    if (hideLocale === 'never') {
+      urlLocale = locale;
+    } else if (
+      hideLocale === 'default-locale' &&
+      locale !== i18n?.defaultLanguage
+    ) {
+      urlLocale = locale;
+    }
+
+    const paths = [...baseSlugs, ...slugs];
+    if (urlLocale) paths.unshift(urlLocale);
+
+    return `/${paths.filter((v) => v.length > 0).join('/')}`;
+  };
+}
+
+export function loader<
+  Config extends SourceConfig,
+  I18n extends I18nConfig | undefined = undefined,
+>(
+  source: Source<Config>,
+  options: LoaderOptions<{
+    source: NoInfer<Config>;
+    i18n: I18n;
+  }>,
+): LoaderOutput<{
+  source: Config;
+  i18n: I18n;
+}>;
+
+export function loader<
+  Config extends SourceConfig,
+  I18n extends I18nConfig | undefined = undefined,
+>(
+  options: LoaderOptions<{
+    source: NoInfer<Config>;
+    i18n: I18n;
+  }> & {
+    source: Source<Config>;
+  },
+): LoaderOutput<{
+  source: Config;
+  i18n: I18n;
+}>;
+
+export function loader(
+  ...args:
+    | [
+        LoaderOptions & {
+          source: Source;
+        },
+      ]
+    | [Source, LoaderOptions]
+): LoaderOutput<LoaderConfig> {
+  const resolved =
+    args.length === 2
+      ? resolveConfig(args[0], args[1])
+      : resolveConfig(args[0].source, args[0]);
+
+  return createOutput(resolved);
+}
+
+function resolveConfig(
+  source: Source,
+  { slugs, icon, plugins = [], baseUrl, url, ...base }: LoaderOptions,
+): ResolvedLoaderConfig {
+  let config: ResolvedLoaderConfig = {
+    ...base,
+    url: url
+      ? (...args) => normalizeUrl(url(...args))
+      : createGetUrl(baseUrl, base.i18n),
+    source,
+    plugins: buildPlugins([
+      slugsPlugin(slugs),
+      icon && iconPlugin(icon),
+      ...(typeof plugins === 'function'
+        ? plugins({
+            typedPlugin: (plugin) => plugin as unknown as LoaderPlugin,
+          })
+        : plugins),
+    ]),
+  };
+
+  for (const plugin of config.plugins ?? []) {
+    const result = plugin.config?.(config);
+    if (result) config = result;
+  }
+
+  return config;
+}
+
+function createOutput(
+  loaderConfig: ResolvedLoaderConfig,
+): LoaderOutput<LoaderConfig> {
+  const { i18n } = loaderConfig;
+  const defaultLanguage = i18n?.defaultLanguage ?? '';
+  const storages = buildContentStorage(loaderConfig, defaultLanguage);
+  const walker = indexPages(storages, loaderConfig);
+  const builder = createPageTreeBuilder(loaderConfig);
+  let pageTree: Record<string, PageTree.Root> | undefined;
+
+  return {
+    _i18n: i18n,
+    get pageTree() {
+      pageTree ??= builder.buildI18n(storages);
+
+      return i18n
+        ? (pageTree as unknown as LoaderOutput<LoaderConfig>['pageTree'])
+        : pageTree[defaultLanguage];
+    },
+    set pageTree(v) {
+      if (i18n) {
+        pageTree = v as unknown as Record<string, PageTree.Root>;
+      } else {
+        pageTree = {
+          [defaultLanguage]: v,
+        };
+      }
+    },
+    getPageByHref(href, { dir = '', language = defaultLanguage } = {}) {
+      const [value, hash] = href.split('#', 2);
+      let target;
+
+      if (
+        value.startsWith('.') &&
+        (value.endsWith('.md') || value.endsWith('.mdx'))
+      ) {
+        const path = joinPath(dir, value);
+
+        target = walker.pathToPage.get(`${language}.${path}`);
+      } else {
+        target = this.getPages(language).find((item) => item.url === value);
+      }
+
+      if (target)
+        return {
+          page: target,
+          hash,
+        };
+    },
+    getPages(language) {
+      const pages: Page[] = [];
+
+      for (const [key, value] of walker.pages.entries()) {
+        if (language === undefined || key.startsWith(`${language}.`)) {
+          pages.push(value);
+        }
+      }
+
+      return pages;
+    },
+    getLanguages() {
+      const list: {
+        language: string;
+        pages: Page[];
+      }[] = [];
+
+      if (!i18n) return list;
+      for (const language of i18n.languages) {
+        list.push({
+          language,
+          pages: this.getPages(language),
+        });
+      }
+
+      return list;
+    },
+    // the slugs plugin generates encoded slugs by default.
+    // we can assume page slugs are always URI encoded.
+    getPage(slugs = [], language = defaultLanguage) {
+      // 1. `slugs` is already decoded
+      let page = walker.pages.get(`${language}.${slugs.join('/')}`);
+      if (page) return page;
+
+      // 1. `slugs` is URI encoded
+      page = walker.pages.get(`${language}.${slugs.map(decodeURI).join('/')}`);
+      if (page) return page;
+    },
+    getNodeMeta(node, language = defaultLanguage) {
+      const ref = node.$ref?.metaFile;
+      if (!ref) return;
+
+      return walker.pathToMeta.get(`${language}.${ref}`);
+    },
+    getNodePage(node, language = defaultLanguage) {
+      const ref = node.$ref?.file;
+      if (!ref) return;
+
+      return walker.pathToPage.get(`${language}.${ref}`);
+    },
+    getPageTree(locale) {
+      if (i18n) {
+        return this.pageTree[
+          (locale ?? defaultLanguage) as keyof typeof pageTree
+        ];
+      }
+
+      return this.pageTree;
+    },
+    // @ts-expect-error -- ignore this
+    generateParams(slug, lang) {
+      if (i18n) {
+        return this.getLanguages().flatMap((entry) =>
+          entry.pages.map((page) => ({
+            [slug ?? 'slug']: page.slugs,
+            [lang ?? 'lang']: entry.language,
+          })),
+        );
+      }
+
+      return this.getPages().map((page) => ({
+        [slug ?? 'slug']: page.slugs,
+      }));
+    },
+  };
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- infer types
+export type InferPageType<Utils extends LoaderOutput<any>> =
+  Utils extends LoaderOutput<infer Config>
+    ? Page<Config['source']['pageData']>
+    : never;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- infer types
+export type InferMetaType<Utils extends LoaderOutput<any>> =
+  Utils extends LoaderOutput<infer Config>
+    ? Meta<Config['source']['metaData']>
+    : never;

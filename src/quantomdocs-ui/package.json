@@ -1,0 +1,9 @@
+{
+  "name": "quantomdocs-ui",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    "./*": "./*",
+    "./css/*": "./css/*"
+  }
+}

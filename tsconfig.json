@@ -1,0 +1,90 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "fumadocs-mdx:collections/*": [
+        "./src/.source/*"
+      ],
+      "quantomdocs-core": [
+        "./src/quantomdocs-core"
+      ],
+      "quantomdocs-core/*": [
+        "./src/quantomdocs-core/*"
+      ],
+      "quantomdocs-ui": [
+        "./src/quantomdocs-ui"
+      ],
+      "quantomdocs-ui/*": [
+        "./src/quantomdocs-ui/*"
+      ],
+      "quantomdocs-mdx": [
+        "./src/quantomdocs-mdx"
+      ],
+      "quantomdocs-mdx/*": [
+        "./src/quantomdocs-mdx/*"
+      ],
+      "quantomdocs-openapi": [
+        "./src/quantomdocs-openapi"
+      ],
+      "quantomdocs-openapi/*": [
+        "./src/quantomdocs-openapi/*"
+      ],
+      "@core/*": [
+        "./src/quantomdocs-core/*"
+      ],
+      "@ui/*": [
+        "./src/quantomdocs-ui/*"
+      ],
+      "@mdx/*": [
+        "./src/quantomdocs-mdx/*"
+      ],
+      "@openapi/*": [
+        "./src/quantomdocs-openapi/*"
+      ]
+    },
+    "target": "ES2017"
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "next-env.d.ts",
+    "src/content/**/*.mdx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "src/components/registry/**/*",
+    "src/quantomdocs-*/**/*"
+  ]
+}
