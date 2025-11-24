@@ -4,7 +4,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/cn';
 import { getSponsors } from '@/lib/get-sponsors';
 import { owner } from '@/lib/github';
-import { organizationAsUserSponsors } from '@/app/(home)/sponsors/data';
+import { organizationAsUserSponsors } from '@/app/(main)/sponsors/data';
 
 const tiers = [
   {

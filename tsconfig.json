@@ -30,6 +30,12 @@
       "fumadocs-mdx:collections/*": [
         "./src/.source/*"
       ],
+      "fumadocs-mdx": [
+        "./packages/mdx/src"
+      ],
+      "fumadocs-mdx/*": [
+        "./packages/mdx/*"
+      ],
       "quantomdocs-core": [
         "./src/app/docs/_lib/core"
       ],

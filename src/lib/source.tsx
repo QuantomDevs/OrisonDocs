@@ -8,7 +8,7 @@ import {
 import { openapiPlugin, openapiSource } from '@docs/openapi/server';
 import { blog as blogPosts, docs } from 'quantomdocs-mdx:collections/server';
 import { toQuantomDocsSource } from '@docs/mdx/runtime/server';
-import { lucideIconsPlugin } from '@docs/core/source/lucide-icons';
+import { lucideIconsPlugin } from '@docs/core/source/plugins/lucide-icons';
 import { openapi } from '@/lib/openapi';
 
 export const source = loader(

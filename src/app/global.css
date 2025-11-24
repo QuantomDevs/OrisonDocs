@@ -1,6 +1,4 @@
 @import 'tailwindcss';
-@import 'fumadocs-twoslash/twoslash.css';
-@import '@docs/openapi/css/preset.css';
 @plugin 'tailwindcss-animate';
 
 /* ===========================

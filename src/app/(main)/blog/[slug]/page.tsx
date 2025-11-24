@@ -5,7 +5,7 @@ import { InlineTOC } from '@docs/ui/components/inline-toc';
 import { blog } from '@/lib/source';
 import { createMetadata } from '@/lib/metadata';
 import { buttonVariants } from '@/components/ui/button';
-import { ShareButton } from '@/app/(home)/blog/[slug]/page.client';
+import { ShareButton } from '@/app/(main)/blog/[slug]/page.client';
 import { getMDXComponents } from '@/mdx-components';
 import path from 'node:path';
 import { cn } from '@/lib/cn';

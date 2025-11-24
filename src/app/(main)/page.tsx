@@ -10,7 +10,7 @@ import {
   SearchIcon,
   TimerIcon,
 } from 'lucide-react';
-import { Marquee } from '@/app/(home)/marquee';
+import { Marquee } from '@/app/(main)/marquee';
 import { CodeBlock } from '@/components/code-block';
 import {
   Hero,
@@ -19,7 +19,7 @@ import {
   PreviewImages,
   Writing,
   ContentAdoptionBackground,
-} from '@/app/(home)/page.client';
+} from '@/app/(main)/page.client';
 import ShadcnImage from './shadcn.png';
 import ContributorCounter from '@/components/contributor-count';
 import { owner, repo } from '@/lib/github';
