@@ -1,12 +1,12 @@
 'use client';
 import { cn } from '@/lib/cn';
-import { buttonVariants } from 'quantomdocs-ui/components/ui/button';
+import { buttonVariants } from '@docs/ui/components/ui/button';
 import { ThumbsDown, ThumbsUp } from 'lucide-react';
 import { type SyntheticEvent, useEffect, useState, useTransition } from 'react';
 import {
   Collapsible,
   CollapsibleContent,
-} from 'quantomdocs-ui/components/ui/collapsible';
+} from '@docs/ui/components/ui/collapsible';
 import { cva } from 'class-variance-authority';
 import { usePathname } from 'next/navigation';
 

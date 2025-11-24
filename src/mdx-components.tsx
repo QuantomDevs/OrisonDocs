@@ -1,8 +1,8 @@
-import defaultMdxComponents from 'quantomdocs-ui/mdx';
-import * as FilesComponents from 'quantomdocs-ui/components/files';
-import * as TabsComponents from 'quantomdocs-ui/components/tabs';
+import defaultMdxComponents from '@docs/ui/mdx';
+import * as FilesComponents from '@docs/ui/components/files';
+import * as TabsComponents from '@docs/ui/components/tabs';
 import type { MDXComponents } from 'mdx/types';
-import { Accordion, Accordions } from 'quantomdocs-ui/components/accordion';
+import { Accordion, Accordions } from '@docs/ui/components/accordion';
 import * as icons from 'lucide-react';
 
 export function getMDXComponents(components?: MDXComponents) {

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { isMarkdownPreferred, rewritePath } from 'quantomdocs-core/negotiation';
+import { isMarkdownPreferred, rewritePath } from '@docs/core/negotiation';
 
 const { rewrite: rewriteLLM } = rewritePath('/docs/*path', '/llms.mdx/*path');
 

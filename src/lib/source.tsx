@@ -4,11 +4,11 @@ import {
   type LoaderPlugin,
   loader,
   multiple,
-} from 'quantomdocs-core/source';
-import { openapiPlugin, openapiSource } from 'quantomdocs-openapi/server';
+} from '@docs/core/source';
+import { openapiPlugin, openapiSource } from '@docs/openapi/server';
 import { blog as blogPosts, docs } from 'quantomdocs-mdx:collections/server';
-import { toQuantomDocsSource } from 'quantomdocs-mdx/runtime/server';
-import { lucideIconsPlugin } from 'quantomdocs-core/source/lucide-icons';
+import { toQuantomDocsSource } from '@docs/mdx/runtime/server';
+import { lucideIconsPlugin } from '@docs/core/source/lucide-icons';
 import { openapi } from '@/lib/openapi';
 
 export const source = loader(

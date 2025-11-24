@@ -1,6 +1,6 @@
 import { AlbumIcon, Heart, LayoutTemplate } from 'lucide-react';
 import Image from 'next/image';
-import type { BaseLayoutProps, LinkItemType } from 'quantomdocs-ui/layouts/shared';
+import type { BaseLayoutProps, LinkItemType } from '@docs/ui/layouts/shared';
 import { QuantomDocsIcon } from '@/app/layout.client';
 import Logo from '../../public/logo.png';
 

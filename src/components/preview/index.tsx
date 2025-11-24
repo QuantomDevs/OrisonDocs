@@ -1,14 +1,14 @@
 import { Home } from 'lucide-react';
-import { Heading } from 'quantomdocs-ui/components/heading';
-import { Card } from 'quantomdocs-ui/components/card';
-import { Callout } from 'quantomdocs-ui/components/callout';
-import { Accordion, Accordions } from 'quantomdocs-ui/components/accordion';
-import { Tab, Tabs } from 'quantomdocs-ui/components/tabs';
-import { Step, Steps } from 'quantomdocs-ui/components/steps';
-import { TypeTable } from 'quantomdocs-ui/components/type-table';
+import { Heading } from '@docs/ui/components/heading';
+import { Card } from '@docs/ui/components/card';
+import { Callout } from '@docs/ui/components/callout';
+import { Accordion, Accordions } from '@docs/ui/components/accordion';
+import { Tab, Tabs } from '@docs/ui/components/tabs';
+import { Step, Steps } from '@docs/ui/components/steps';
+import { TypeTable } from '@docs/ui/components/type-table';
 import { type ReactNode } from 'react';
 import { Wrapper } from './wrapper';
-import { GithubInfo } from 'quantomdocs-ui/components/github-info';
+import { GithubInfo } from '@docs/ui/components/github-info';
 import { owner, repo } from '@/lib/github';
 import {
   Banner,

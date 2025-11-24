@@ -5,9 +5,9 @@ import { Body } from '@/app/layout.client';
 import { Provider } from './provider';
 import type { ReactNode } from 'react';
 import { Geist, Geist_Mono } from 'next/font/google';
-import { TreeContextProvider } from 'quantomdocs-ui/contexts/tree';
+import { TreeContextProvider } from '@docs/ui/contexts/tree';
 import { source } from '@/lib/source';
-import { NextProvider } from 'quantomdocs-core/framework/next';
+import { NextProvider } from '@docs/core/framework/next';
 
 export const metadata = createMetadata({
   title: {

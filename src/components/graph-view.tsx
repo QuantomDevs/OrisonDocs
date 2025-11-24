@@ -14,7 +14,7 @@ import type {
   NodeObject,
 } from 'react-force-graph-2d';
 import { forceCollide, forceLink, forceManyBody } from 'd3-force';
-import { useRouter } from 'quantomdocs-core/framework';
+import { useRouter } from '@docs/core/framework';
 
 export interface Graph {
   links: Link[];

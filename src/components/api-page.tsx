@@ -1,5 +1,5 @@
 import { openapi } from '@/lib/openapi';
-import { createAPIPage } from 'quantomdocs-openapi/ui';
+import { createAPIPage } from '@docs/openapi/ui';
 
 export const APIPage = createAPIPage(openapi, {
   shikiOptions: {

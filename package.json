@@ -13,8 +13,8 @@
   "license": "MIT",
   "scripts": {
     "build": "npm run build:pre && next build && npm run build:post",
-    "build:pre": "bun ./src/docs/scripts/pre-build.ts",
-    "build:post": "bun ./src/docs/scripts/post-build.ts",
+    "build:pre": "bun ./tools/scripts/pre-build.ts",
+    "build:post": "bun ./tools/scripts/post-build.ts",
     "types:check": "tsc --noEmit",
     "clean": "rimraf .next",
     "dev": "next dev",
@@ -23,10 +23,6 @@
     "test": "vitest"
   },
   "dependencies": {
-    "quantomdocs-core": "file:./src/quantomdocs-core",
-    "quantomdocs-ui": "file:./src/quantomdocs-ui",
-    "quantomdocs-mdx": "file:./src/quantomdocs-mdx",
-    "quantomdocs-openapi": "file:./src/quantomdocs-openapi",
     "@ai-sdk/openai-compatible": "^1.0.27",
     "@ai-sdk/react": "^2.0.93",
     "@formatjs/intl-localematcher": "^0.6.2",

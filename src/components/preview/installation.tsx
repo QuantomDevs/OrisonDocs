@@ -3,7 +3,7 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from 'quantomdocs-ui/components/tabs.unstyled';
+} from '@docs/ui/components/tabs.unstyled';
 import { CodeBlock } from '@/components/code-block';
 
 export function Installation({ name }: { name: string }) {

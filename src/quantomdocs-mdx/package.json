@@ -1,9 +1,0 @@
-{
-  "name": "quantomdocs-mdx",
-  "version": "1.0.0",
-  "type": "module",
-  "exports": {
-    "./*": "./*",
-    "./next": "./next/index.ts"
-  }
-}

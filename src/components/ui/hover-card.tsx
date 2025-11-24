@@ -4,7 +4,7 @@ import type { ComponentProps } from 'react';
 import * as React from 'react';
 import * as HoverCardPrimitive from '@radix-ui/react-hover-card';
 import { cn } from '@/lib/cn';
-import Link from 'quantomdocs-core/link';
+import Link from '@docs/core/link';
 
 const HoverCard = HoverCardPrimitive.Root;
 

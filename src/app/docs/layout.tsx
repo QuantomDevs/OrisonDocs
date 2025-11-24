@@ -1,4 +1,4 @@
-import { DocsLayout } from 'quantomdocs-ui/layouts/docs';
+import { DocsLayout } from '@docs/ui/layouts/docs';
 import { baseOptions, linkItems, logo } from '@/lib/layout.shared';
 import { source } from '@/lib/source';
 import {

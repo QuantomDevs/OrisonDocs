@@ -4,11 +4,11 @@ import {
   defineDocs,
   frontmatterSchema,
   metaSchema,
-} from 'quantomdocs-mdx/config';
+} from '@docs/mdx/config';
 import { z } from 'zod';
 import type { ElementContent } from 'hast';
-import jsonSchema from 'quantomdocs-mdx/plugins/json-schema';
-import lastModified from 'quantomdocs-mdx/plugins/last-modified';
+import jsonSchema from '@docs/mdx/plugins/json-schema';
+import lastModified from '@docs/mdx/plugins/last-modified';
 import type { ShikiTransformer } from 'shiki';
 
 export const docs = defineDocs({

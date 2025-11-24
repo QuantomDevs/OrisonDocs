@@ -1,6 +1,6 @@
 'use client';
 
-import { RootProvider } from 'quantomdocs-ui/provider/base';
+import { RootProvider } from '@docs/ui/provider/base';
 import dynamic from 'next/dynamic';
 import type { ReactNode } from 'react';
 import { TooltipProvider } from '@radix-ui/react-tooltip';

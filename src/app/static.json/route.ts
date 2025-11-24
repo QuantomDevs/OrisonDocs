@@ -1,6 +1,6 @@
 import { source } from '@/lib/source';
-import type { OramaDocument } from 'quantomdocs-core/search/orama-cloud';
-import { getBreadcrumbItems } from 'quantomdocs-core/breadcrumb';
+import type { OramaDocument } from '@docs/core/search/orama-cloud';
+import { getBreadcrumbItems } from '@docs/core/breadcrumb';
 
 export const revalidate = false;
 

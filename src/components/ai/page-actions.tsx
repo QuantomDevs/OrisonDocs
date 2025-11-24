@@ -8,13 +8,13 @@ import {
   MessageCircleIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/cn';
-import { useCopyButton } from 'quantomdocs-ui/utils/use-copy-button';
-import { buttonVariants } from 'quantomdocs-ui/components/ui/button';
+import { useCopyButton } from '@docs/ui/utils/use-copy-button';
+import { buttonVariants } from '@docs/ui/components/ui/button';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from 'quantomdocs-ui/components/ui/popover';
+} from '@docs/ui/components/ui/popover';
 import { cva } from 'class-variance-authority';
 
 const cache = new Map<string, string>();

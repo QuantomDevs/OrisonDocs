@@ -1,7 +1,7 @@
-import Link from 'quantomdocs-core/link';
+import Link from '@docs/core/link';
 import { type ReactNode, Suspense } from 'react';
 import { cn } from '@/lib/cn';
-import { buttonVariants } from 'quantomdocs-ui/components/ui/button';
+import { buttonVariants } from '@docs/ui/components/ui/button';
 
 export interface Suggestion {
   id: string;

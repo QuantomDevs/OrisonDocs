@@ -1,4 +1,4 @@
-import { defineConfig } from 'quantomdocs-mdx/config';
+import { defineConfig } from '@docs/mdx/config';
 import { visit } from 'unist-util-visit';
 import type { Root } from 'mdast';
 

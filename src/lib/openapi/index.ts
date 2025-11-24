@@ -1,4 +1,4 @@
-import { createOpenAPI } from 'quantomdocs-openapi/server';
+import { createOpenAPI } from '@docs/openapi/server';
 import path from 'node:path';
 
 export const openapi = createOpenAPI({

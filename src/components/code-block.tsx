@@ -1,5 +1,5 @@
-import * as Base from 'quantomdocs-ui/components/codeblock';
-import { getHighlighter, hastToJsx } from 'quantomdocs-core/highlight';
+import * as Base from '@docs/ui/components/codeblock';
+import { getHighlighter, hastToJsx } from '@docs/core/highlight';
 import { cn } from '@/lib/cn';
 import type { BundledLanguage } from 'shiki';
 

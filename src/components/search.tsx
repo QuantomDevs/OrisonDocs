@@ -12,19 +12,19 @@ import {
   SearchDialogOverlay,
   type SearchItemType,
   type SharedProps,
-} from 'quantomdocs-ui/components/dialog/search';
-import { useDocsSearch } from 'quantomdocs-core/search/client';
+} from '@docs/ui/components/dialog/search';
+import { useDocsSearch } from '@docs/core/search/client';
 import { useMemo, useState } from 'react';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from 'quantomdocs-ui/components/ui/popover';
+} from '@docs/ui/components/ui/popover';
 import { ArrowRight, ChevronDown } from 'lucide-react';
-import { buttonVariants } from 'quantomdocs-ui/components/ui/button';
+import { buttonVariants } from '@docs/ui/components/ui/button';
 import { cn } from '@/lib/cn';
-import { useTreeContext } from 'quantomdocs-ui/contexts/tree';
-import type { Item, Node } from 'quantomdocs-core/page-tree';
+import { useTreeContext } from '@docs/ui/contexts/tree';
+import type { Item, Node } from '@docs/core/page-tree';
 import { useRouter } from 'next/navigation';
 import { orama } from '@/lib/orama/client';
 

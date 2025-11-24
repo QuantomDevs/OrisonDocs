@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { type ComponentProps, type FC, type ReactNode } from 'react';
 import * as Twoslash from 'fumadocs-twoslash/ui';
-import { Callout } from 'quantomdocs-ui/components/callout';
-import { TypeTable } from 'quantomdocs-ui/components/type-table';
+import { Callout } from '@docs/ui/components/callout';
+import { TypeTable } from '@docs/ui/components/type-table';
 import * as Preview from '@/components/preview';
 import { createMetadata, getPageImage } from '@/lib/metadata';
 import { source } from '@/lib/source';
@@ -15,22 +15,22 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from '@/components/ui/hover-card';
-import Link from 'quantomdocs-core/link';
-import { getPageTreePeers } from 'quantomdocs-core/page-tree';
-import { Card, Cards } from 'quantomdocs-ui/components/card';
+import Link from '@docs/core/link';
+import { getPageTreePeers } from '@docs/core/page-tree';
+import { Card, Cards } from '@docs/ui/components/card';
 import { getMDXComponents } from '@/mdx-components';
 import { LLMCopyButton, ViewOptions } from '@/components/ai/page-actions';
-import { Banner } from 'quantomdocs-ui/components/banner';
+import { Banner } from '@docs/ui/components/banner';
 import { Installation } from '@/components/preview/installation';
 import { Customisation } from '@/components/preview/customisation';
 import {
   DocsBody,
   DocsPage,
   PageLastUpdate,
-} from 'quantomdocs-ui/layouts/docs/page';
+} from '@docs/ui/layouts/docs/page';
 import { NotFound } from '@/components/not-found';
 import { getSuggestions } from '@/app/docs/[...slug]/suggestions';
-import { PathUtils } from 'quantomdocs-core/source';
+import { PathUtils } from '@docs/core/source';
 
 function PreviewRenderer({ preview }: { preview: string }): ReactNode {
   if (preview && preview in Preview) {

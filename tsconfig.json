@@ -31,40 +31,64 @@
         "./src/.source/*"
       ],
       "quantomdocs-core": [
-        "./src/quantomdocs-core"
+        "./src/app/docs/_lib/core"
       ],
       "quantomdocs-core/*": [
-        "./src/quantomdocs-core/*"
+        "./src/app/docs/_lib/core/*"
       ],
       "quantomdocs-ui": [
-        "./src/quantomdocs-ui"
+        "./src/app/docs/_components"
       ],
       "quantomdocs-ui/*": [
-        "./src/quantomdocs-ui/*"
+        "./src/app/docs/_components/*"
       ],
       "quantomdocs-mdx": [
-        "./src/quantomdocs-mdx"
+        "./src/app/docs/_lib/mdx"
       ],
       "quantomdocs-mdx/*": [
-        "./src/quantomdocs-mdx/*"
+        "./src/app/docs/_lib/mdx/*"
       ],
       "quantomdocs-openapi": [
-        "./src/quantomdocs-openapi"
+        "./src/app/docs/_lib/openapi"
       ],
       "quantomdocs-openapi/*": [
-        "./src/quantomdocs-openapi/*"
+        "./src/app/docs/_lib/openapi/*"
+      ],
+      "@docs/ui": [
+        "./src/app/docs/_components"
+      ],
+      "@docs/ui/*": [
+        "./src/app/docs/_components/*"
+      ],
+      "@docs/core": [
+        "./src/app/docs/_lib/core"
+      ],
+      "@docs/core/*": [
+        "./src/app/docs/_lib/core/*"
+      ],
+      "@docs/mdx": [
+        "./src/app/docs/_lib/mdx"
+      ],
+      "@docs/mdx/*": [
+        "./src/app/docs/_lib/mdx/*"
+      ],
+      "@docs/openapi": [
+        "./src/app/docs/_lib/openapi"
+      ],
+      "@docs/openapi/*": [
+        "./src/app/docs/_lib/openapi/*"
       ],
       "@core/*": [
-        "./src/quantomdocs-core/*"
+        "./src/app/docs/_lib/core/*"
       ],
       "@ui/*": [
-        "./src/quantomdocs-ui/*"
+        "./src/app/docs/_components/*"
       ],
       "@mdx/*": [
-        "./src/quantomdocs-mdx/*"
+        "./src/app/docs/_lib/mdx/*"
       ],
       "@openapi/*": [
-        "./src/quantomdocs-openapi/*"
+        "./src/app/docs/_lib/openapi/*"
       ]
     },
     "target": "ES2017"
@@ -78,13 +102,12 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "next-env.d.ts",
-    "src/content/**/*.mdx",
+    "content/**/*.mdx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",
-    "src/components/registry/**/*",
-    "src/quantomdocs-*/**/*"
+    "src/components/registry/**/*"
   ]
 }

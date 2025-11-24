@@ -12,8 +12,8 @@ import {
   useDeferredValue,
 } from 'react';
 import { Fragment, jsx, jsxs } from 'react/jsx-runtime';
-import { DynamicCodeBlock } from 'quantomdocs-ui/components/dynamic-codeblock';
-import defaultMdxComponents from 'quantomdocs-ui/mdx';
+import { DynamicCodeBlock } from '@docs/ui/components/dynamic-codeblock';
+import defaultMdxComponents from '@docs/ui/mdx';
 import { visit } from 'unist-util-visit';
 import type { ElementContent, Root, RootContent } from 'hast';
 
