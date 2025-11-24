@@ -1,13 +1,13 @@
 ---
-title: Fumadocs v13
-description: Introducing Fumadocs v13
-author: Fuma Nama
+title: docs v13
+description: Introducing docs v13
+author:  Nama
 date: 2024-07-28
 ---
 
 ## Introduction
 
-Fumadocs v13 has been released. It aims to fix the CSS pollution problem and remove deprecated APIs.
+docs v13 has been released. It aims to fix the CSS pollution problem and remove deprecated APIs.
 
 ## New Features
 
@@ -58,7 +58,7 @@ The anchor provider can be placed anywhere.
 
 ### Opt-out of Container
 
-Now supports disabling the default container styles of Tailwind CSS added by Fumadocs UI.
+Now supports disabling the default container styles of Tailwind CSS added by docs UI.
 
 ```js
 import { createPreset } from 'quantomdocs-ui/tailwind-plugin';
@@ -85,10 +85,10 @@ See [Remark Admonition](/docs/headless/mdx/remark-admonition).
 
 ### Prefix to colors, animations, and utilities
 
-Previously, the Tailwind CSS plugin of Fumadocs UI added colors (including `primary`, `secondary`) which conflicted with Shadcn UI and other design systems.
+Previously, the Tailwind CSS plugin of docs UI added colors (including `primary`, `secondary`) which conflicted with Shadcn UI and other design systems.
 A `fd-` prefix is added to them to allow the flexibility to have a separated design system on docs.
 
-To use the Fumadocs UI colors on your primary app, enable the `addGlobalColors` option.
+To use the docs UI colors on your primary app, enable the `addGlobalColors` option.
 
 ```js
 import { createPreset } from 'quantomdocs-ui/tailwind-plugin';
@@ -129,9 +129,9 @@ export default {
 ### Remove `RollButton` component
 
 `RollButton` was introduced because there were no "Table Of Contents" on mobile viewports.
-Now users can use the TOC Popover to switch between headings, it is no longer a suitable design for Fumadocs UI.
+Now users can use the TOC Popover to switch between headings, it is no longer a suitable design for docs UI.
 
-You may copy the [last implementation of `RollButton`](https://github.com/fuma-nama/fumadocs/blob/quantomdocs-ui%4012.5.6/packages/ui/src/components/roll-button.tsx).
+You may copy the [last implementation of `RollButton`](https://github.com/-nama/docs/blob/quantomdocs-ui%4012.5.6/packages/ui/src/components/roll-button.tsx).
 
 ### Better i18n
 

@@ -1,38 +1,38 @@
 ---
-title: Fumadocs v14
-description: Introducing Fumadocs v14
-author: Fuma Nama
+title: docs v14
+description: Introducing docs v14
+author:  Nama
 date: 2024-09-19
 ---
 
 ## Why?
 
-Taking some inspirations from [Shadcn UI](https://ui.shadcn.com), I decided to make Fumadocs easier to use, with more APIs that simplify the design.
+Taking some inspirations from [Shadcn UI](https://ui.shadcn.com), I decided to make docs easier to use, with more APIs that simplify the design.
 
 This is a large update.
 
 ## New Features
 
-### Fumadocs CLI
+### docs CLI
 
-Clone Fumadocs UI components to your workspace and modify them.
+Clone docs UI components to your workspace and modify them.
 
 ```package-install
-npm install @fumadocs/cli --save-dev
+npm install @docs/cli --save-dev
 ```
 
 ```bash
-pnpm fumadocs add
+pnpm docs add
 ```
 
 See [docs](/docs/cli) for details.
 
 ### Sidebar Tabs
 
-Previously, multiple page tree is implemented with Fumadocs UI `RootToggle` component.
+Previously, multiple page tree is implemented with docs UI `RootToggle` component.
 You have to add it to the sidebar banner which isn't as intuitive as other APIs.
 
-With Sidebar Tabs, by creating a root folder, Fumadocs will immediately add a tabs component to the sidebar.
+With Sidebar Tabs, by creating a root folder, docs will immediately add a tabs component to the sidebar.
 
 ```json title="meta.json"
 {
@@ -58,7 +58,7 @@ import { createFromSource } from 'quantomdocs-core/search/server';
 export const { GET } = createFromSource(source);
 ```
 
-In favour of this, the new search client of Fumadocs is introduced with support for different API clients.
+In favour of this, the new search client of docs is introduced with support for different API clients.
 This includes Algolia, Orama (static and dynamic with route handlers).
 
 ```ts
@@ -80,15 +80,15 @@ See [Static Search](/docs/headless/search/orama#static-export).
 
 ### Less Dependencies
 
-I'm always working to reduce the dependencies required for Fumadocs, that is one reason why we separated Fumadocs into different packages.
+I'm always working to reduce the dependencies required for docs, that is one reason why we separated docs into different packages.
 
-Fumadocs UI now bundles icons from `lucide-react`, for Next.js apps that is not using Lucide, they can avoid downloading the entire icon library.
+docs UI now bundles icons from `lucide-react`, for Next.js apps that is not using Lucide, they can avoid downloading the entire icon library.
 
 And `swr` is no longer used for search client, we implemented a light `useQuery` hook with extra care on React performance optimization.
 
 ### New Metadata Image API
 
-To improve code organization, we made a Metadata Image API on Fumadocs Core.
+To improve code organization, we made a Metadata Image API on docs Core.
 It is a tiny wrapper over Next.js Metadata API, composes seamlessly with Source API.
 
 ```ts title="lib/metadata.ts"
@@ -139,7 +139,7 @@ In favour of this, the `getImageMeta` function from `quantomdocs-ui/og` has been
 ### Shorthands
 
 As you may notice, we introduced more abstractions to reduce the setup steps required for enabling some features.
-It is also required for the code generator from Fumadocs CLI to work.
+It is also required for the code generator from docs CLI to work.
 
 Like the `generateParams` function, it enables zero-configuration i18n support for Next.js `generateStaticParams`.
 
@@ -153,13 +153,13 @@ export function generateStaticParams() {
 
 ### Better Card Component
 
-Fumadocs UI Card can now support usage without `href`.
+docs UI Card can now support usage without `href`.
 You can pass children as React node, Typography styles will be applied correctly.
 
 ```mdx
 <Card icon={<Database />} title='Content Source'>
 
-The input/source of your content, it can be a CMS, or local data layers like [Content Collections](https://www.content-collections.dev) and [Fumadocs MDX](/docs/mdx).
+The input/source of your content, it can be a CMS, or local data layers like [Content Collections](https://www.content-collections.dev) and [docs MDX](/docs/mdx).
 
 </Card>
 ```
@@ -224,7 +224,7 @@ See [Auto Type Table](/docs/ui/components/auto-type-table).
 
 ### Next.js 15
 
-Fumadocs v14 is compatible with Next.js 15, supporting sync and async usages of dynamic APIs.
+docs v14 is compatible with Next.js 15, supporting sync and async usages of dynamic APIs.
 
 <Callout type="info" title="Backward compatible">
   Next.js 14 is also supported, notice that guides/tutorials in the docs are
@@ -287,15 +287,15 @@ import { BaseLayoutProps } from 'quantomdocs-ui/layouts/shared';
 
 ### Twoslash UI
 
-We moved Twoslash UI components to `fumadocs-twoslash`.
-This isolates some logic from Fumadocs UI, allowing a better code organization.
+We moved Twoslash UI components to `docs-twoslash`.
+This isolates some logic from docs UI, allowing a better code organization.
 
 Import the CSS styles and `Popup` component differently.
 
 ```ts
-import 'fumadocs-twoslash/twoslash.css';
+import 'docs-twoslash/twoslash.css';
 
-import { Popup } from 'fumadocs-twoslash/ui';
+import { Popup } from 'docs-twoslash/ui';
 ```
 
 <Callout>It requires Tailwind CSS.</Callout>

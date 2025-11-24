@@ -9,7 +9,7 @@ description: Auto-generated type table
 
     /**
     * Markdown syntax like links, `code` are supported.
-    * See https://fumadocs.dev/docs/ui/components/type-table
+    * See https://docs.dev/docs/ui/components/type-table
     **/
     name: boolean | null;
 
@@ -45,7 +45,7 @@ It generates a table for your docs based on TypeScript definitions.
 ## Usage
 
 ```npm
-npm i fumadocs-typescript
+npm i docs-typescript
 ```
 
 Initialize the TypeScript compiler and add it as a MDX component.
@@ -53,8 +53,8 @@ Initialize the TypeScript compiler and add it as a MDX component.
 ```tsx title="mdx-components.tsx"
 import defaultComponents from 'quantomdocs-ui/mdx';
 import type { MDXComponents } from 'mdx/types';
-import { createGenerator } from 'fumadocs-typescript';
-import { AutoTypeTable } from 'fumadocs-typescript/ui';
+import { createGenerator } from 'docs-typescript';
+import { AutoTypeTable } from 'docs-typescript/ui';
 
 const generator = createGenerator();
 
@@ -137,7 +137,7 @@ Your `tsconfig.json` file in the current working directory will be loaded.
 You can change the compiler settings from [`createGenerator()`](/docs/ui/typescript).
 
 ```ts
-import { createGenerator } from 'fumadocs-typescript';
+import { createGenerator } from 'docs-typescript';
 
 const generator = createGenerator({
   tsconfigPath: './tsconfig.json',

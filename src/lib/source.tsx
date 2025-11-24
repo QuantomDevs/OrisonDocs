@@ -7,13 +7,13 @@ import {
 } from 'quantomdocs-core/source';
 import { openapiPlugin, openapiSource } from 'quantomdocs-openapi/server';
 import { blog as blogPosts, docs } from 'quantomdocs-mdx:collections/server';
-import { toFumadocsSource } from 'quantomdocs-mdx/runtime/server';
+import { toQuantomDocsSource } from 'quantomdocs-mdx/runtime/server';
 import { lucideIconsPlugin } from 'quantomdocs-core/source/lucide-icons';
 import { openapi } from '@/lib/openapi';
 
 export const source = loader(
   multiple({
-    docs: docs.toFumadocsSource(),
+    docs: docs.toQuantomDocsSource(),
     openapi: await openapiSource(openapi, {
       baseDir: 'openapi/(generated)',
     }),
@@ -43,7 +43,7 @@ function pageTreeCodeTitles(): LoaderPlugin {
   };
 }
 
-export const blog = loader(toFumadocsSource(blogPosts, []), {
+export const blog = loader(toQuantomDocsSource(blogPosts, []), {
   baseUrl: '/blog',
 });
 

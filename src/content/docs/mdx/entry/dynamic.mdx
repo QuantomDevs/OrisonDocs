@@ -16,18 +16,18 @@ import { loader } from 'quantomdocs-core/source';
 
 export const source = loader({
   baseUrl: '/docs',
-  source: docs.toFumadocsSource(),
+  source: docs.todocsSource(),
 });
 ```
 
 ```ts tab="Doc"
 // [!code highlight]
 import { blogPosts } from 'quantomdocs-mdx:collections/dynamic';
-import { toFumadocsSource } from 'quantomdocs-mdx/runtime/server';
+import { todocsSource } from 'quantomdocs-mdx/runtime/server';
 import { loader } from 'quantomdocs-core/source';
 
 export const blog = loader({
   baseUrl: '/blog',
-  source: toFumadocsSource(blogPosts, []),
+  source: todocsSource(blogPosts, []),
 });
 ```

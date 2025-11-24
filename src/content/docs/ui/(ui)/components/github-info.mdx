@@ -14,8 +14,8 @@ import { GithubInfo } from 'quantomdocs-ui/components/github-info';
 export function MyComp() {
   return (
     <GithubInfo
-      owner="fuma-nama"
-      repo="fumadocs"
+      owner="-nama"
+      repo="docs"
       // your own GitHub access token (optional)
       token={process.env.GITHUB_TOKEN}
     />
@@ -39,7 +39,7 @@ function docsOptions(): DocsLayoutProps {
       {
         type: 'custom',
         children: (
-          <GithubInfo owner="fuma-nama" repo="fumadocs" className="lg:-mx-2" />
+          <GithubInfo owner="-nama" repo="docs" className="lg:-mx-2" />
         ),
       },
     ],

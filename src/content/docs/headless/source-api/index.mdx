@@ -5,7 +5,7 @@ description: Turn a content source into a unified interface
 
 ## What it does?
 
-`loader()` provides an interface for Fumadocs to integrate with file-system based content sources.
+`loader()` provides an interface for docs to integrate with file-system based content sources.
 
 - Generate [page slugs and page tree](/docs/headless/page-conventions).
 - Assign URL to each page.
@@ -15,14 +15,14 @@ It doesn't rely on the real file system (zero `node:fs` usage), a virtual storag
 
 ## Usage
 
-You can use it with built-in content sources like Fumadocs MDX.
+You can use it with built-in content sources like docs MDX.
 
 ```ts
 import { loader } from 'quantomdocs-core/source';
 import { docs } from 'quantomdocs-mdx:collections/server';
 
 export const source = loader({
-  source: docs.toFumadocsSource(),
+  source: docs.todocsSource(),
   baseUrl: '/docs',
 });
 ```

@@ -1,17 +1,17 @@
 ---
-title: Fumadocs v16
+title: docs v16
 description: Better framework support, better performance.
-author: Fuma Nama
+author:  Nama
 date: 2025-10-22
 ---
 
 ## Overview
 
-We are pleased to announce the release of Fumadocs v16, a significant update that introduces breaking changes designed to refine our API surface, improve compatibility with Vite frameworks, and boost overall performance.
+We are pleased to announce the release of docs v16, a significant update that introduces breaking changes designed to refine our API surface, improve compatibility with Vite frameworks, and boost overall performance.
 
 ## Major Changes
 
-Fumadocs 16 removed substantial amount of deprecated APIs accumulated since v15.2 Vite support.
+docs 16 removed substantial amount of deprecated APIs accumulated since v15.2 Vite support.
 
 - **Removal of the Sidebar API**: The `quantomdocs-core/sidebar` module has been deprecated and removed. For sidebar implementations, we recommend adopting pre-built solutions from Shadcn UI.
 
@@ -24,8 +24,8 @@ Fumadocs 16 removed substantial amount of deprecated APIs accumulated since v15.
 
 - **Default Switch to Shiki's JavaScript Regex Engine**: To ensure seamless compatibility with environments like Cloudflare Workers, the JavaScript engine is now the default over the WASM-based Oniguruma. This change affects `rehype-code` (via the `engine` option) and `quantomdocs-core/highlight`.
 
-- **Minimum React.js Version Raised to 19.2.0**: React 19.2 brings crucial performance improvements to Fumadocs UI.
-  - **Next.js Projects**: Next.js projects using Fumadocs UI must use Next.js 16 or later, as Next.js uses its own canary channel for React.js.
+- **Minimum React.js Version Raised to 19.2.0**: React 19.2 brings crucial performance improvements to docs UI.
+  - **Next.js Projects**: Next.js projects using docs UI must use Next.js 16 or later, as Next.js uses its own canary channel for React.js.
 - **`quantomdocs-ui/provider` is removed**:
   - Use `quantomdocs-ui/provider/next` for root provider.
   - Use individual exports for contexts from `quantomdocs-ui/contexts/*`.
@@ -63,7 +63,7 @@ Fumadocs 16 removed substantial amount of deprecated APIs accumulated since v15.
 
 ### Styling Changes
 
-Fumadocs UI has included some aggressive styling changes that you should know about.
+docs UI has included some aggressive styling changes that you should know about.
 
 - The default `--fd-layout-width` CSS variable is set to `1600px` for optimal content scaling.
   You can override it if needed.
@@ -74,15 +74,15 @@ Fumadocs UI has included some aggressive styling changes that you should know ab
   }
   ```
 
-## Fumadocs MDX 13
+## docs MDX 13
 
-Fumadocs MDX refined its API surface for better cross-framework compatibility and flexibility.
+docs MDX refined its API surface for better cross-framework compatibility and flexibility.
 
 ### Plugins API
 
 We introduced Plugins API, enabling extensible modifications to MDX configurations without bundler-specific code—ideal for file generation (e.g., types, indexes) or config alterations.
 
-There's a `json-schema` plugin natively provided by Fumadocs MDX.
+There's a `json-schema` plugin natively provided by docs MDX.
 
 ```ts title="source.config.ts"
 import jsonSchema from 'quantomdocs-mdx/plugins/json-schema';
@@ -107,7 +107,7 @@ export default defineConfig({
 
 `createMDXSource` and `resolveFiles` are now relocated to `quantomdocs-mdx/runtime/next`.
 
-This should not affect majority of projects, as `docs.toFumadocsSource()` is now the preferred way.
+This should not affect majority of projects, as `docs.todocsSource()` is now the preferred way.
 
 ### Vite
 
@@ -131,7 +131,7 @@ The `source.generated.ts` file is now moved to `.source/index.ts`, you are recom
 
   .
 
-- note that both docs and `create-fumadocs-app` are updated to `.source` folder.
+- note that both docs and `create-docs-app` are updated to `.source` folder.
 
 We also supported index file generation targeting other runtimes like Bun/Node.js.
 
@@ -152,7 +152,7 @@ export default defineConfig({
 });
 ```
 
-## Fumadocs OpenAPI 9.6
+## docs OpenAPI 9.6
 
 A redesigned schema UI emphasizes client-side rendering (CSR) for recursive components, reducing bundle sizes and enhancing performance in complex JSON schemas.
 
@@ -162,4 +162,4 @@ Non-required fields now include a reset button, with support for `content.showEx
 
 ## What's Next?
 
-Fumadocs v16 is a new start for Fumadocs. We appreciate your feedback and contributions—please share your experiences on GitHub. Thank you for supporting Fumadocs :)
+docs v16 is a new start for docs. We appreciate your feedback and contributions—please share your experiences on GitHub. Thank you for supporting docs :)

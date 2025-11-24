@@ -1,6 +1,6 @@
 ---
 title: Obsidian
-description: Render your Obsidian vaults in Fumadocs.
+description: Render your Obsidian vaults in docs.
 ---
 
 <Callout type="warn" title="Experimental">
@@ -10,7 +10,7 @@ description: Render your Obsidian vaults in Fumadocs.
 ## Setup
 
 ```npm
-npm i fumadocs-obsidian
+npm i docs-obsidian
 ```
 
 You can copy your vault folder to the project (e.g. root directory):
@@ -26,7 +26,7 @@ You can copy your vault folder to the project (e.g. root directory):
 Create a script to generate docs & assets:
 
 ```ts title="scripts/generate.ts"
-import { fromVault } from 'fumadocs-obsidian';
+import { fromVault } from 'docs-obsidian';
 
 await fromVault({
   dir: 'Obsidian Vault',
@@ -46,7 +46,7 @@ Finally, include necessary MDX components:
 
 ```tsx title="mdx-components.tsx"
 import defaultMdxComponents from 'quantomdocs-ui/mdx';
-import * as ObsidianComponents from 'fumadocs-obsidian/ui';
+import * as ObsidianComponents from 'docs-obsidian/ui';
 import type { MDXComponents } from 'mdx/types';
 
 export function getMDXComponents(components?: MDXComponents) {

@@ -41,7 +41,7 @@ export interface DocsCollectionEntry<
 > {
   docs: DocCollectionEntry<Name, Frontmatter, TC>[];
   meta: MetaCollectionEntry<Meta>[];
-  toFumadocsSource: () => Source<{
+  toQuantomDocsSource: () => Source<{
     pageData: DocCollectionEntry<Name, Frontmatter, TC>;
     metaData: MetaCollectionEntry<Meta>;
   }>;
@@ -55,7 +55,7 @@ export interface AsyncDocsCollectionEntry<
 > {
   docs: AsyncDocCollectionEntry<Name, Frontmatter, TC>[];
   meta: MetaCollectionEntry<Meta>[];
-  toFumadocsSource: () => Source<{
+  toQuantomDocsSource: () => Source<{
     pageData: AsyncDocCollectionEntry<Name, Frontmatter, TC>;
     metaData: MetaCollectionEntry<Meta>;
   }>;
@@ -194,8 +194,8 @@ export function server<Config, TC extends InternalTypeConfig>(
       const entry = {
         docs: await this.doc(name, base, docGlob),
         meta: await this.meta(name, base, metaGlob),
-        toFumadocsSource() {
-          return toFumadocsSource(this.docs, this.meta);
+        toQuantomDocsSource() {
+          return toQuantomDocsSource(this.docs, this.meta);
         },
       } satisfies DocsCollectionEntry;
 
@@ -225,8 +225,8 @@ export function server<Config, TC extends InternalTypeConfig>(
       const entry = {
         docs: await this.docLazy(name, base, docHeadGlob, docBodyGlob),
         meta: await this.meta(name, base, metaGlob),
-        toFumadocsSource() {
-          return toFumadocsSource(this.docs, this.meta);
+        toQuantomDocsSource() {
+          return toQuantomDocsSource(this.docs, this.meta);
         },
       } satisfies AsyncDocsCollectionEntry;
 
@@ -249,7 +249,7 @@ export function server<Config, TC extends InternalTypeConfig>(
   };
 }
 
-export function toFumadocsSource<
+export function toQuantomDocsSource<
   Page extends DocMethods & PageData,
   Meta extends MetaMethods & MetaData,
 >(

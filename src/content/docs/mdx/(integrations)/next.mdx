@@ -1,11 +1,11 @@
 ---
 title: Next.js
-description: Use Fumadocs MDX with Next.js
+description: Use docs MDX with Next.js
 ---
 
 ## Setup
 
-Set up Fumadocs MDX for your Next.js application.
+Set up docs MDX for your Next.js application.
 
 <section id="setup-section">
 <div className="fd-steps [&_h3]:fd-step">
@@ -50,15 +50,15 @@ export default withMDX(config);
 
 <Callout title="ESM Only" type='warn' className="mt-4">
 
-    The Next.js config must be a `.mjs` file since Fumadocs is ESM-only.
+    The Next.js config must be a `.mjs` file since docs is ESM-only.
 
 </Callout>
 
 <include>.shared.mdx</include>
 
-### Integrate with Fumadocs
+### Integrate with docs
 
-You can create a `lib/source.ts` file and obtain Fumadocs source from the `docs` collection output.
+You can create a `lib/source.ts` file and obtain docs source from the `docs` collection output.
 
 ```ts title="lib/source.ts"
 import { docs } from 'quantomdocs-mdx:collections/server';
@@ -66,7 +66,7 @@ import { loader } from 'quantomdocs-core/source';
 
 export const source = loader({
   baseUrl: '/docs',
-  source: docs.toFumadocsSource(),
+  source: docs.todocsSource(),
 });
 ```
 

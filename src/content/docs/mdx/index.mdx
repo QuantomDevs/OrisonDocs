@@ -1,12 +1,12 @@
 ---
 title: Getting Started
-description: Introducing Fumadocs MDX, the official content source of Fumadocs.
+description: Introducing docs MDX, the official content source of docs.
 icon: Album
 ---
 
 ## Introduction
 
-Fumadocs MDX is a tool to transform content into type-safe data, similar to Content Collections.
+docs MDX is a tool to transform content into type-safe data, similar to Content Collections.
 
 It is not a full CMS but rather a content processing layer for React frameworks, you can use it to handle blog posts and other contents.
 
@@ -14,7 +14,7 @@ It is not a full CMS but rather a content processing layer for React frameworks,
 
 **Collection** refers to a collection containing a certain type of files. You can define collections in the config file (`source.config.ts`).
 
-Fumadocs MDX transforms collections into type-safe data, accessible in your app. Available collections:
+docs MDX transforms collections into type-safe data, accessible in your app. Available collections:
 
 <Tabs items={["doc", "meta", 'docs']}>
 
@@ -49,7 +49,7 @@ export const test = defineCollections({
     </Tab>
     <Tab value='docs'>
 
-Combination of `meta` and `doc` collections, which is needed for Fumadocs.
+Combination of `meta` and `doc` collections, which is needed for docs.
 
 ```ts title="source.config.ts"
 import { defineDocs } from 'quantomdocs-mdx/config';
@@ -88,17 +88,17 @@ We will cover in [Accessing Collections](/docs/mdx/entry) later on how to access
 
 ## Installation
 
-Configure Fumadocs MDX on:
+Configure docs MDX on:
 
 <Cards>
   <Card title="Next.js" href="/docs/mdx/next">
-    Using Fumadocs MDX with Next.js.
+    Using docs MDX with Next.js.
   </Card>
   <Card title="Vite" href="/docs/mdx/vite">
-    Using Fumadocs MDX with Vite.
+    Using docs MDX with Vite.
   </Card>
   <Card title="Runtime Loader" href="/docs/mdx/loader">
-    Using Fumadocs MDX with a JavaScript runtime.
+    Using docs MDX with a JavaScript runtime.
   </Card>
 </Cards>
 
@@ -121,7 +121,7 @@ Use the [`schema`](/docs/mdx/collections#schema-1) option to pass a validation s
 
 ### Customise MDX Compiler
 
-Fumadocs MDX uses [MDX Compiler](https://mdxjs.com/packages/mdx) to compile MDX files into JavaScript files.
+docs MDX uses [MDX Compiler](https://mdxjs.com/packages/mdx) to compile MDX files into JavaScript files.
 The [default preset](/docs/mdx/mdx) includes a set of plugins and configurations out-of-the-box.
 
 You can customise it on [Global Config](/docs/mdx/global#mdx-options) or [Collection Config](/docs/mdx/collections#mdxoptions).

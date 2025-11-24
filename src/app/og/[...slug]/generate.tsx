@@ -28,7 +28,7 @@ export async function getImageResponseOptions(): Promise<ImageResponseOptions> {
 }
 
 export function generate({ title, description }: GenerateProps) {
-  const siteName = 'Fumadocs';
+  const siteName = 'QuantomDocs';
   const primaryTextColor = 'rgb(240,240,240)';
   const logo = (
     <svg

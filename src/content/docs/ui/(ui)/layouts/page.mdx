@@ -64,7 +64,7 @@ import { DocsPage } from 'quantomdocs-ui/layouts/docs/page';
 
 <DocsPage>
   <a
-    href={`https://github.com/fuma-nama/fumadocs/blob/main/content/docs/${page.path}`}
+    href={`https://github.com/-nama/docs/blob/main/content/docs/${page.path}`}
     rel="noreferrer noopener"
     target="_blank"
     className="w-fit border rounded-xl p-2 font-medium text-sm text-fd-secondary-foreground bg-fd-secondary transition-colors hover:text-fd-accent-foreground hover:bg-fd-accent"
@@ -91,7 +91,7 @@ const lastModifiedTime: Date | undefined;
 
 For `lastModifiedTime`, you can possibly use different version controls like Github or a CMS.
 
-<Tabs items={['Fumadocs MDX', 'GitHub API']}>
+<Tabs items={['docs MDX', 'GitHub API']}>
 
     <Tab>
 
@@ -115,8 +115,8 @@ the [`getGithubLastEdit`](/docs/headless/utils/git-last-edit) utility.
 import { getGithubLastEdit } from 'quantomdocs-core/content/github';
 
 const lastModifiedTime = await getGithubLastEdit({
-  owner: 'fuma-nama',
-  repo: 'fumadocs',
+  owner: '-nama',
+  repo: 'docs',
   // file path in Git
   path: `content/docs/${page.path}`,
 });
@@ -144,7 +144,7 @@ import { DocsPage } from 'quantomdocs-ui/layouts/docs/page';
 An overview of all the headings in your article, it requires an array of headings.
 
 For Markdown and MDX documents, You can obtain it using the
-[TOC Utility](/docs/headless/utils/get-toc). Content sources like Fumadocs MDX offer this out-of-the-box.
+[TOC Utility](/docs/headless/utils/get-toc). Content sources like docs MDX offer this out-of-the-box.
 
 ```tsx
 import { DocsPage } from 'quantomdocs-ui/layouts/docs/page';

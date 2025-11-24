@@ -1,12 +1,12 @@
 ---
 title: Deploying
-description: Deploy your Fumadocs app
+description: Deploy your docs app
 icon: Rocket
 ---
 
 ## Overview
 
-Your Fumadocs app is powered by the underlying React framework (e.g. Next.js), you will need to check the relevant docs of your React framework for deployment guides.
+Your docs app is powered by the underlying React framework (e.g. Next.js), you will need to check the relevant docs of your React framework for deployment guides.
 
 - [Next.js](https://nextjs.org/docs/app/getting-started/deploying)
 - [React Router](https://reactrouter.com/start/framework/deploying)
@@ -19,11 +19,11 @@ There's some extra notes on specific combinations:
 
 ### Next.js + Cloudflare
 
-Use https://opennext.js.org/cloudflare, Fumadocs doesn't work on Edge runtime.
+Use https://opennext.js.org/cloudflare, docs doesn't work on Edge runtime.
 
 ### Next.js + Docker
 
-If you want to deploy your Fumadocs app using Docker with **Fumadocs MDX configured**, make sure to add the `source.config.ts` file and your `next.config.js` file to the `WORKDIR` in the Dockerfile.
+If you want to deploy your docs app using Docker with **docs MDX configured**, make sure to add the `source.config.ts` file and your `next.config.js` file to the `WORKDIR` in the Dockerfile.
 The following snippet is taken from the official [Next.js Dockerfile Example](https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile):
 
 ```zsh title="Dockerfile"
@@ -95,4 +95,4 @@ ENV HOSTNAME="0.0.0.0"
 CMD ["node", "server.js"]
 ```
 
-This ensures Fumadocs MDX can access your configuration file during builds.
+This ensures docs MDX can access your configuration file during builds.

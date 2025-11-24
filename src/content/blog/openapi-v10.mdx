@@ -1,11 +1,11 @@
 ---
-title: Fumadocs OpenAPI v10
-description: Introducing Fumadocs OpenAPI v10.
-author: Fuma Nama
+title: docs OpenAPI v10
+description: Introducing docs OpenAPI v10.
+author:  Nama
 date: 2025-11-06
 ---
 
-We are pleased to announce the release of Fumadocs OpenAPI v10.
+We are pleased to announce the release of docs OpenAPI v10.
 This major release focuses on enhancing customization capabilities and simplifying API surfaces, it is also an opportunity to drop older/deprecated APIs.
 
 We have introduced multiple breaking changes that require attention during upgrades.
@@ -117,7 +117,7 @@ The option `content.showExampleInFields` has been renamed to `schemaUI.showExamp
 
 ### Removal of Centralized `renderer` and `fields` APIs
 
-Fumadocs OpenAPI now prefers per-feature customizations, eliminating the centralized `renderer` API. Custom render functions are now specified directly in the `content` option when creating an API page.
+docs OpenAPI now prefers per-feature customizations, eliminating the centralized `renderer` API. Custom render functions are now specified directly in the `content` option when creating an API page.
 
 ```tsx title="components/api-page.tsx"
 import { openapi } from '@/lib/openapi';
