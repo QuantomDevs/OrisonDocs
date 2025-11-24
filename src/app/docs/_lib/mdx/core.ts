@@ -294,7 +294,7 @@ function postprocessPlugin(): Plugin {
   /**
    * extracted references (e.g. hrefs, paths), useful for analyzing relationships between pages.
    */
-  extractedReferences: import("quantomdocs-mdx").ExtractedReference[];
+  extractedReferences: import("@docs/mdx").ExtractedReference[];
 }`;
 
   return {

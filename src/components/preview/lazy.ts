@@ -3,24 +3,24 @@ import dynamic from 'next/dynamic';
 
 export const DynamicCodeBlock = dynamic(() => import('./dynamic-codeblock'));
 export const Banner = dynamic(() =>
-  import('quantomdocs-ui/components/banner').then((res) => res.Banner),
+  import('@docs/ui/components/banner').then((res) => res.Banner),
 );
 export const InlineTOC = dynamic(() =>
-  import('quantomdocs-ui/components/inline-toc').then((res) => res.InlineTOC),
+  import('@docs/ui/components/inline-toc').then((res) => res.InlineTOC),
 );
 
 export const File = dynamic(() =>
-  import('quantomdocs-ui/components/files').then((res) => res.File),
+  import('@docs/ui/components/files').then((res) => res.File),
 );
 export const Files = dynamic(() =>
-  import('quantomdocs-ui/components/files').then((res) => res.Files),
+  import('@docs/ui/components/files').then((res) => res.Files),
 );
 export const Folder = dynamic(() =>
-  import('quantomdocs-ui/components/files').then((res) => res.Folder),
+  import('@docs/ui/components/files').then((res) => res.Folder),
 );
 
 export const ImageZoom = dynamic(() =>
-  import('quantomdocs-ui/components/image-zoom').then((res) => res.ImageZoom),
+  import('@docs/ui/components/image-zoom').then((res) => res.ImageZoom),
 );
 
 export const GraphView = dynamic(() =>

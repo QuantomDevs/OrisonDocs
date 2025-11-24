@@ -1,4 +1,4 @@
-import { type OramaDocument, sync } from 'quantomdocs-core/search/orama-cloud';
+import { type OramaDocument, sync } from '@docs/core/search/orama-cloud';
 import * as fs from 'node:fs/promises';
 import { DataSourceId, isAdmin, orama } from '@/lib/orama/client';
 

@@ -16,8 +16,8 @@ const mapToPackage = {
 export const registry: Registry = {
   name: 'quantomdocs-ui',
   dir: srcDir,
-  tsconfigPath: '../tsconfig.json',
-  packageJson: '../package.json',
+  tsconfigPath: '../../../../tsconfig.json',
+  packageJson: '../../../../package.json',
   onResolve(ref) {
     if (ref.type !== 'file') return ref;
 
@@ -395,10 +395,5 @@ export const registry: Registry = {
       ],
     },
   ],
-  dependencies: {
-    'quantomdocs-core': null,
-    'quantomdocs-ui': null,
-    'lucide-react': null,
-    react: null,
-  },
+  dependencies: {},
 };

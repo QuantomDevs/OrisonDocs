@@ -4,11 +4,11 @@ import {
   defineDocs,
   frontmatterSchema,
   metaSchema,
-} from '@docs/mdx/config';
+} from './app/docs/_lib/mdx/config';
 import { z } from 'zod';
 import type { ElementContent } from 'hast';
-import jsonSchema from '@docs/mdx/plugins/json-schema';
-import lastModified from '@docs/mdx/plugins/last-modified';
+import jsonSchema from './app/docs/_lib/mdx/plugins/json-schema';
+import lastModified from './app/docs/_lib/mdx/plugins/last-modified';
 import type { ShikiTransformer } from 'shiki';
 
 export const docs = defineDocs({
@@ -73,10 +73,10 @@ export default defineConfig({
   ],
   mdxOptions: async () => {
     const { rehypeCodeDefaultOptions } = await import(
-      'quantomdocs-core/mdx-plugins/rehype-code'
+      './app/docs/_lib/core/mdx-plugins/rehype-code'
     );
     const { remarkSteps } = await import(
-      'quantomdocs-core/mdx-plugins/remark-steps'
+      './app/docs/_lib/core/mdx-plugins/remark-steps'
     );
     const { transformerTwoslash } = await import('fumadocs-twoslash');
     const { createFileSystemTypesCache } = await import(

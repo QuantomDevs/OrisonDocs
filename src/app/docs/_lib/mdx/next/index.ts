@@ -55,7 +55,7 @@ export function createMDX(createOptions: CreateMDXOptions = {}) {
         '*.{md,mdx}': {
           loaders: [
             {
-              loader: 'quantomdocs-mdx/loader-mdx',
+              loader: path.resolve(__dirname, '../webpack/mdx.ts'),
               options: loaderOptions as unknown as TurbopackLoaderOptions,
             },
           ],
@@ -64,7 +64,7 @@ export function createMDX(createOptions: CreateMDXOptions = {}) {
         '*.json': {
           loaders: [
             {
-              loader: 'quantomdocs-mdx/loader-meta',
+              loader: path.resolve(__dirname, '../webpack/meta.ts'),
               options: loaderOptions as unknown as TurbopackLoaderOptions,
             },
           ],
@@ -73,7 +73,7 @@ export function createMDX(createOptions: CreateMDXOptions = {}) {
         '*.yaml': {
           loaders: [
             {
-              loader: 'quantomdocs-mdx/loader-meta',
+              loader: path.resolve(__dirname, '../webpack/meta.ts'),
               options: loaderOptions as unknown as TurbopackLoaderOptions,
             },
           ],
@@ -98,7 +98,7 @@ export function createMDX(createOptions: CreateMDXOptions = {}) {
             use: [
               options.defaultLoaders.babel,
               {
-                loader: 'quantomdocs-mdx/loader-mdx',
+                loader: path.resolve(__dirname, '../webpack/mdx.ts'),
                 options: loaderOptions,
               },
             ],
@@ -108,7 +108,7 @@ export function createMDX(createOptions: CreateMDXOptions = {}) {
             enforce: 'pre',
             use: [
               {
-                loader: 'quantomdocs-mdx/loader-meta',
+                loader: path.resolve(__dirname, '../webpack/meta.ts'),
                 options: loaderOptions,
               },
             ],

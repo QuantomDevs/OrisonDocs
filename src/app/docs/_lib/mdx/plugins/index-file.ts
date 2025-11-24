@@ -75,7 +75,7 @@ export default function indexFile(
   } {
     const serverOptions: ServerOptions = {};
     const typeConfigs: string[] = [
-      'import("quantomdocs-mdx/runtime/types").InternalTypeConfig',
+      'import("@docs/mdx/runtime/types").InternalTypeConfig',
     ];
     const ctx = core.getPluginContext();
 

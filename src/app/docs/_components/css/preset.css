@@ -5,11 +5,11 @@
 @import './layouts/home.css';
 @import './layouts/notebook.css';
 
-@source '../dist/*.js';
-@source '../dist/{components,contexts,provider,utils}/**/*.js';
-@source '../dist/layouts/shared/**/*.js';
+@source '../**/*.{ts,tsx}';
+@source '../{components,contexts,provider,utils}/**/*.{ts,tsx}';
+@source '../layouts/shared/**/*.{ts,tsx}';
 
-@plugin '../dist/theme/typography/index.js';
+@plugin '../theme/typography/index.ts';
 
 @theme {
   --spacing-fd-container: 1400px;

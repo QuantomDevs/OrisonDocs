@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import fs from 'node:fs/promises';
 import type { ImageResponseOptions } from 'next/server';
+import path from 'node:path';
 
 export interface GenerateProps {
   title: ReactNode;
@@ -9,8 +10,8 @@ export interface GenerateProps {
   logo?: ReactNode;
 }
 
-const font = fs.readFile('./lib/og/JetBrainsMono-Regular.ttf');
-const fontBold = fs.readFile('./lib/og/JetBrainsMono-Bold.ttf');
+const font = fs.readFile(path.join(process.cwd(), 'src/lib/og/JetBrainsMono-Regular.ttf'));
+const fontBold = fs.readFile(path.join(process.cwd(), 'src/lib/og/JetBrainsMono-Bold.ttf'));
 
 export async function getImageResponseOptions(): Promise<ImageResponseOptions> {
   return {

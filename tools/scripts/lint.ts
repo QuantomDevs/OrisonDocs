@@ -4,7 +4,7 @@ import {
   scanURLs,
   validateFiles,
 } from 'next-validate-link';
-import { InferPageType } from 'quantomdocs-core/source';
+import { InferPageType } from '@docs/core/source';
 import { blog, source } from '@/lib/source';
 
 type AnySource = typeof blog | typeof source;

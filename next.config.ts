@@ -2,7 +2,7 @@
 require('./register-paths');
 
 import createBundleAnalyzer from '@next/bundle-analyzer';
-import { createMDX } from 'quantomdocs-mdx/next';
+import { createMDX } from '@docs/mdx/next';
 import type { NextConfig } from 'next';
 
 const withAnalyzer = createBundleAnalyzer({
@@ -11,12 +11,6 @@ const withAnalyzer = createBundleAnalyzer({
 
 const config: NextConfig = {
   reactStrictMode: true,
-  transpilePackages: [
-    'quantomdocs-core',
-    'quantomdocs-ui',
-    'quantomdocs-mdx',
-    'quantomdocs-openapi',
-  ],
   logging: {
     fetches: {
       fullUrl: true,
@@ -27,10 +21,10 @@ const config: NextConfig = {
     config.resolve = config.resolve || {};
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@core': require('path').resolve(__dirname, 'src/quantomdocs-core'),
-      '@ui': require('path').resolve(__dirname, 'src/quantomdocs-ui'),
-      '@mdx': require('path').resolve(__dirname, 'src/quantomdocs-mdx'),
-      '@openapi': require('path').resolve(__dirname, 'src/quantomdocs-openapi'),
+      '@core': require('path').resolve(__dirname, 'src/app/docs/_lib/core'),
+      '@ui': require('path').resolve(__dirname, 'src/app/docs/_components'),
+      '@mdx': require('path').resolve(__dirname, 'src/app/docs/_lib/mdx'),
+      '@openapi': require('path').resolve(__dirname, 'src/app/docs/_lib/openapi'),
     };
     return config;
   },
