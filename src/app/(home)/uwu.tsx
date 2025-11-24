@@ -31,7 +31,7 @@ export function UwuHero() {
           Getting Started
         </Link>
         <a
-          href="https://stackblitz.com/~/github.com/fuma-nama/quantomdocs-ui-template"
+          href="https://stackblitz.com/~/github.com/QuantomDevs/quantomdocs-ui-template"
           className={cn(
             buttonVariants({
               size: 'lg',

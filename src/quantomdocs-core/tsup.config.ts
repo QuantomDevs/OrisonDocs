@@ -2,7 +2,7 @@ import { defineConfig } from 'tsup';
 
 export default defineConfig({
   external: [
-    // https://github.com/fuma-nama/fumadocs/issues/2144
+    // https://github.com/QuantomDevs/fumadocs/issues/2144
     '@tanstack/react-router',
     'waku',
   ],

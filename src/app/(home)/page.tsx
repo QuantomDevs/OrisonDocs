@@ -84,7 +84,7 @@ export default function Page() {
               Getting Started
             </Link>
             <a
-              href="https://codesandbox.io/p/sandbox/github/fuma-nama/quantomdocs-ui-template"
+              href="https://codesandbox.io/p/sandbox/github/QuantomDevs/quantomdocs-ui-template"
               target="_blank"
               rel="noreferrer noopener"
               className={cn(
@@ -541,11 +541,11 @@ function ForEngineers() {
         <div className="flex flex-row w-fit items-center gap-4 mb-6">
           {[
             {
-              href: 'https://github.com/fuma-nama/fumadocs-basehub',
+              href: 'https://github.com/QuantomDevs/fumadocs-basehub',
               text: 'BaseHub CMS',
             },
             {
-              href: 'https://github.com/fuma-nama/fumadocs-sanity',
+              href: 'https://github.com/QuantomDevs/fumadocs-sanity',
               text: 'Sanity',
             },
             {
@@ -743,7 +743,7 @@ function OpenSource() {
             Sponsors
           </Link>
           <a
-            href="https://github.com/fuma-nama/fumadocs/graphs/contributors"
+            href="https://github.com/QuantomDevs/fumadocs/graphs/contributors"
             rel="noreferrer noopener"
             className={cn(buttonVariants({ variant: 'secondary' }))}
           >
@@ -811,7 +811,7 @@ function OpenSource() {
             Read docs
           </Link>
           <a
-            href="https://github.com/fuma-nama/fumadocs"
+            href="https://github.com/QuantomDevs/fumadocs"
             rel="noreferrer noopener"
             className={cn(
               buttonVariants({
